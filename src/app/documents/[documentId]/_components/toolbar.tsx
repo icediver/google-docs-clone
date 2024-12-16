@@ -26,6 +26,7 @@ import {
   ListTodoIcon,
   LucideIcon,
   MessageSquareIcon,
+  MessageSquarePlusIcon,
   MinusIcon,
   PlusIcon,
   PrinterIcon,
@@ -99,7 +100,8 @@ function LineHeightButton() {
               "flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80",
               editor?.getAttributes("paragraph").lineHeight ===
                 value.replace("px", "") && "bg-neutral-200/80",
-            )}>
+            )}
+          >
             <span className="text-sm">{label}</span>
           </button>
         ))}
@@ -161,7 +163,8 @@ function FontSizeButton() {
     <div className="flex items-center gap-x-0.5">
       <button
         onClick={decrement}
-        className="h-7 w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 bg-transparent focus:ontline-none focus:ring-0">
+        className="h-7 w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 bg-transparent focus:ontline-none focus:ring-0"
+      >
         <MinusIcon className="size-4" />
       </button>
       {isEditing ? (
@@ -179,13 +182,15 @@ function FontSizeButton() {
             setIsEditing(true);
             setFontSize(currentFontSize);
           }}
-          className="h-7 text-center w-10 text-sm rounded-sm border border-neutral-400 hover:bg-neutral-200/80">
+          className="h-7 text-center w-10 text-sm rounded-sm border border-neutral-400 hover:bg-neutral-200/80"
+        >
           {currentFontSize}
         </button>
       )}
       <button
         onClick={increment}
-        className="h-7 w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 bg-transparent focus:ontline-none focus:ring-0">
+        className="h-7 w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 bg-transparent focus:ontline-none focus:ring-0"
+      >
         <PlusIcon className="size-4" />
       </button>
     </div>
@@ -225,7 +230,8 @@ function ListButton() {
             className={cn(
               "flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80",
               isActive() && "bg-neutral-200/80",
-            )}>
+            )}
+          >
             <Icon className="size-4 " />
             <span className="text-sm">{label}</span>
           </button>
@@ -276,7 +282,8 @@ function AlignButton() {
             className={cn(
               "flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80",
               editor?.isActive({ textAlign: value }) && "bg-neutral-200/80",
-            )}>
+            )}
+          >
             <Icon className="size-4 " />
             <span className="text-sm">{label}</span>
           </button>
@@ -339,7 +346,8 @@ function ImageButton() {
       </DropdownMenu>
       <Dialog
         open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}>
+        onOpenChange={setIsDialogOpen}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Insert Image URL</DialogTitle>
@@ -378,7 +386,8 @@ function LinkButton() {
         if (open) {
           setValue(editor?.getAttributes("link").href || "");
         }
-      }}>
+      }}
+    >
       <DropdownMenuTrigger asChild>
         <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden">
           <Link2Icon className="size-4" />
@@ -486,7 +495,8 @@ function HeadingLevelButton() {
       <DropdownMenuTrigger asChild>
         <button
           className="h-7 min-w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-          onClick={() => {}}>
+          onClick={() => {}}
+        >
           <span className="truncate">{getCurrentHeading()}</span>
           <ChevronDownIcon className="ml-2 size-4 shrink-0" />
         </button>
@@ -513,7 +523,8 @@ function HeadingLevelButton() {
                   (editor?.isActive("heading", { level: value }) &&
                     "bg-neutral-200/80"),
               )}
-              style={{ fontSize: fontSize }}>
+              style={{ fontSize: fontSize }}
+            >
               <span>{label}</span>
             </button>
           );
@@ -539,7 +550,8 @@ function FontFamilyButton() {
       <DropdownMenuTrigger asChild>
         <button
           className="h-7 w-[120px] shrink-0 flex items-center justify-between rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
-          onClick={() => {}}>
+          onClick={() => {}}
+        >
           <span className="truncate">
             {editor?.getAttributes("textStyle").fontFamily || "Arial"}
           </span>
@@ -558,7 +570,8 @@ function FontFamilyButton() {
               editor?.getAttributes("textStyle").fontFamily === value &&
                 "bg-neutral-200/80",
             )}
-            style={{ fontFamily: value }}>
+            style={{ fontFamily: value }}
+          >
             <span className="text-sm">{label}</span>
           </button>
         ))}
@@ -578,7 +591,8 @@ export function ToolbarButton({
         "text-sm h-7 min-w-7 flex items-center justify-center rounded-sm hover:bg-neutral-200/80",
         isActive && "bg-neutral-200/80",
       )}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       <Icon />
     </button>
   );
@@ -644,9 +658,9 @@ export function Toolbar() {
     [
       {
         label: "Comment",
-        icon: MessageSquareIcon,
-        onClick: () => console.log("TODO: Comment"),
-        isActive: false,
+        icon: MessageSquarePlusIcon,
+        onClick: () => editor?.chain().focus().addPendingComment().run(),
+        isActive: editor?.isActive("liveblocksCommentMark"),
       },
       {
         label: "List Todo",

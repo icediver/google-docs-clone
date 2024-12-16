@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
 import { useEditorStore } from "@/store/use-editor-store";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
 export default function Navbar() {
   const { editor } = useEditorStore();
@@ -149,12 +150,14 @@ export default function Navbar() {
                 </MenubarTrigger>
                 <MenubarContent>
                   <MenubarItem
-                    onClick={() => editor?.chain().focus().undo().run()}>
+                    onClick={() => editor?.chain().focus().undo().run()}
+                  >
                     <Undo2Icon className="size-4 mr-2" />
                     Undo<MenubarShortcut>⌘Z</MenubarShortcut>
                   </MenubarItem>
                   <MenubarItem
-                    onClick={() => editor?.chain().focus().redo().run()}>
+                    onClick={() => editor?.chain().focus().redo().run()}
+                  >
                     <Redo2Icon className="size-4 mr-2" />
                     Redo<MenubarShortcut>⌘Z</MenubarShortcut>
                   </MenubarItem>
@@ -169,19 +172,23 @@ export default function Navbar() {
                     <MenubarSubTrigger>Table</MenubarSubTrigger>
                     <MenubarSubContent>
                       <MenubarItem
-                        onClick={() => insertTable({ rows: 1, cols: 1 })}>
+                        onClick={() => insertTable({ rows: 1, cols: 1 })}
+                      >
                         1 x 1
                       </MenubarItem>
                       <MenubarItem
-                        onClick={() => insertTable({ rows: 2, cols: 2 })}>
+                        onClick={() => insertTable({ rows: 2, cols: 2 })}
+                      >
                         2 x 2
                       </MenubarItem>
                       <MenubarItem
-                        onClick={() => insertTable({ rows: 3, cols: 3 })}>
+                        onClick={() => insertTable({ rows: 3, cols: 3 })}
+                      >
                         3 x 3
                       </MenubarItem>
                       <MenubarItem
-                        onClick={() => insertTable({ rows: 4, cols: 4 })}>
+                        onClick={() => insertTable({ rows: 4, cols: 4 })}
+                      >
                         4 x 4
                       </MenubarItem>
                     </MenubarSubContent>
@@ -202,7 +209,8 @@ export default function Navbar() {
                       <MenubarItem
                         onClick={() =>
                           editor?.chain().focus().toggleBold().run()
-                        }>
+                        }
+                      >
                         <BoldIcon className="size-4 mr-2" />
                         Bold
                         <MenubarShortcut>⌘B</MenubarShortcut>
@@ -210,7 +218,8 @@ export default function Navbar() {
                       <MenubarItem
                         onClick={() =>
                           editor?.chain().focus().toggleItalic().run()
-                        }>
+                        }
+                      >
                         <ItalicIcon className="size-4 mr-2" />
                         Italic
                         <MenubarShortcut>⌘I</MenubarShortcut>
@@ -218,7 +227,8 @@ export default function Navbar() {
                       <MenubarItem
                         onClick={() =>
                           editor?.chain().focus().toggleUnderline().run()
-                        }>
+                        }
+                      >
                         <UnderlineIcon className="size-4 mr-2" />
                         Underline
                         <MenubarShortcut>⌘U</MenubarShortcut>
@@ -226,7 +236,8 @@ export default function Navbar() {
                       <MenubarItem
                         onClick={() =>
                           editor?.chain().focus().toggleStrike().run()
-                        }>
+                        }
+                      >
                         <StrikethroughIcon className="size-4 mr-2" />
                         <span>Strikethrough&nbsp;&nbsp;</span>
                         <MenubarShortcut>⌘S</MenubarShortcut>
@@ -236,7 +247,8 @@ export default function Navbar() {
                   <MenubarItem
                     onClick={() =>
                       editor?.chain().focus().unsetAllMarks().run()
-                    }>
+                    }
+                  >
                     <RemoveFormattingIcon className="size-4 mr-2" />
                     Clear formatting
                   </MenubarItem>
@@ -245,6 +257,15 @@ export default function Navbar() {
             </Menubar>
           </div>
         </div>
+      </div>
+      <div className="flex gap-3 items-center">
+        <OrganizationSwitcher
+          afterCreateOrganizationUrl="/"
+          afterLeaveOrganizationUrl="/"
+          afterSelectOrganizationUrl={"/"}
+          afterSelectPersonalUrl={"/"}
+        />
+        <UserButton />
       </div>
     </nav>
   );
