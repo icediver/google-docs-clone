@@ -7,7 +7,7 @@ import { SearchIcon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
 
 export default function SearchInput() {
-  const [search, setSearch] = useSearchParam("search");
+  const [search, setSearch] = useSearchParam();
   const [value, setValue] = useState<string>(search);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,7 +32,8 @@ export default function SearchInput() {
     <div className="flex-1  flex items-center justify-center">
       <form
         className="relative max-w-[720px] w-full"
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+      >
         <Input
           value={value}
           ref={inputRef}
@@ -44,7 +45,8 @@ export default function SearchInput() {
           type="submit"
           size="icon"
           variant="ghost"
-          className="absolute left-3 top-1/2 -translate-y-1/2 [&_svg]:size-5 rounded-full">
+          className="absolute left-3 top-1/2 -translate-y-1/2 [&_svg]:size-5 rounded-full"
+        >
           <SearchIcon />
         </Button>
         {value && (
@@ -52,7 +54,8 @@ export default function SearchInput() {
             type="button"
             variant="ghost"
             className="absolute right-3 top-1/2 -translate-y-1/2 [&_svg]:size-5 rounded-full"
-            onClick={handleClear}>
+            onClick={handleClear}
+          >
             <XIcon />
           </Button>
         )}

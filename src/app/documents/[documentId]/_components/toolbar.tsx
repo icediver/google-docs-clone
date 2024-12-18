@@ -25,7 +25,6 @@ import {
   ListOrderedIcon,
   ListTodoIcon,
   LucideIcon,
-  MessageSquareIcon,
   MessageSquarePlusIcon,
   MinusIcon,
   PlusIcon,
