@@ -1,10 +1,19 @@
 import { useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
+import { useMutation, useStorage } from "@liveblocks/react";
+
 const markers = Array.from({ length: 83 }, (_, i) => i);
 
 export default function Ruler() {
-  const [leftMargin, setLeftMargin] = useState(56);
-  const [rightMargin, setRightMargin] = useState(56);
+  const leftMargin = useStorage((root) => root.leftMargin) ?? 56;
+  const setLeftMargin = useMutation(({ storage }, position: number) => {
+    storage.set("leftMargin", position);
+  }, []);
+
+  const rightMargin = useStorage((root) => root.rightMargin) ?? 56;
+  const setRightMargin = useMutation(({ storage }, position: number) => {
+    storage.set("rightMargin", position);
+  }, []);
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);
@@ -64,10 +73,12 @@ export default function Ruler() {
       className="w-[816px] mx-auto h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}>
+      onMouseLeave={handleMouseUp}
+    >
       <div
         id="ruler-container"
-        className="w-full h-full relative">
+        className="w-full h-full relative"
+      >
         <Marker
           position={leftMargin}
           isLeft
@@ -92,7 +103,8 @@ export default function Ruler() {
                 <div
                   key={marker}
                   className="absolute bottom-0"
-                  style={{ left: `${position}px` }}>
+                  style={{ left: `${position}px` }}
+                >
                   {marker % 10 === 0 && (
                     <>
                       <div className="absolute bottom-0 w-[1px] h-2 bg-neutral-500" />
@@ -137,7 +149,8 @@ function Marker({
       className="absolute top-0 w-4 h-full cursor-ew-resize z-[5] group -ml-2" // -ml-2"
       style={{ [isLeft ? "left" : "right"]: `${position}px` }}
       onMouseDown={onMouseDown}
-      onDoubleClick={onDoubleClick}>
+      onDoubleClick={onDoubleClick}
+    >
       <FaCaretDown
         className="absolute  left=1/2 top-0 h-full fill-blue-500" //transform -translate-x-1/2
       />

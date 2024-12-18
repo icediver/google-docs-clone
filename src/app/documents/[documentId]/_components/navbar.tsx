@@ -37,8 +37,14 @@ import { BsFilePdf } from "react-icons/bs";
 import { useEditorStore } from "@/store/use-editor-store";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import Avatars from "./avatars";
+import Inbox from "./inbox";
+import { Doc } from "../../../../../convex/_generated/dataModel";
 
-export default function Navbar() {
+interface NavbarProps {
+  data: Doc<"documents">;
+}
+
+export default function Navbar({ data }: NavbarProps) {
   const { editor } = useEditorStore();
 
   const insertTable = ({ rows, cols }: { rows: number; cols: number }) => {
@@ -63,21 +69,21 @@ export default function Navbar() {
     const blob = new Blob([JSON.stringify(content)], {
       type: "application/json",
     });
-    onDownload(blob, "document.json"); //TODO: Use document name
+    onDownload(blob, `${data.title}.json`);
   }
 
   function onSaveHTML() {
     if (!editor) return;
     const content = editor.getHTML();
     const blob = new Blob([content], { type: "text/html" });
-    onDownload(blob, "document.html"); //TODO: Use document name
+    onDownload(blob, `${data.title}.html`);
   }
 
   function onSaveText() {
     if (!editor) return;
     const content = editor.getText();
     const blob = new Blob([content], { type: "text/plain" });
-    onDownload(blob, "document.txt"); //TODO: Use document name
+    onDownload(blob, `${data.title}.txt`);
   }
 
   return (
@@ -92,7 +98,10 @@ export default function Navbar() {
           />
         </Link>
         <div className="flex flex-col">
-          <DocumentInput />
+          <DocumentInput
+            title={data.title}
+            id={data._id}
+          />
           <div className="flex">
             <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
               <MenubarMenu>
@@ -261,6 +270,7 @@ export default function Navbar() {
       </div>
       <div className="flex gap-3 items-center">
         <Avatars />
+        <Inbox />
         <OrganizationSwitcher
           afterCreateOrganizationUrl="/"
           afterLeaveOrganizationUrl="/"
