@@ -26,9 +26,5 @@ export default async function DocumentIdPage({ params }: IDocumentIdPage) {
     { token },
   );
 
-  if (!preloadedDocument) {
-    throw new Error("Document not found");
-  }
-
   return <Document preloadedDocument={preloadedDocument} />;
 }
